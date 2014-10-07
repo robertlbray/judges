@@ -1,6 +1,5 @@
 \input{/Users/robertbray/Dropbox/papers/supportingFiles/headers/header_article.tex}
 \input{/Users/robertbray/Dropbox/papers/supportingFiles/macro/global.tex}
-\newcommand{\cinp}{/Users/robertbray/Dropbox/code/getA/outputs/d/}
 
 \begin{document}
 	\author{Authors}
@@ -22,12 +21,16 @@
 	
 	The judge considers two scheduling policies: The ``see-it-through policy" sees each case through to completion; under this policy, the judge finishes one case's hearings before starting on another case's (the judge orders the cases randomly, since they are symmetric to him). And the ``cycle-through policy" cycles through the open cases one hearing at a time; under this policy, the judge works on the case with the least number of completed hearings (breaking ties randomly).
 	
-	\begin{proposition}
+	\begin{proposition}\label{p:optimal}
 		The see-it-through policy is optimal when completion rate $c(x)$ is increasing and the  cycle-through policy is optimal when it is decreasing.
 	\end{proposition}
 	\begin{proof}
 		First, note that $ \argmin_\pi \E_\pi\left (\sum_{n=1}^{N}\sum_{t=0}^{t_n-1} \beta^t\omega \right ) = \argmin_\pi \E_\pi\left (\sum_{n=1}^{N} \frac{1-\beta^{t_n}}{1-\beta}\right)=\argmax_\pi  \E_\pi\left (\sum_{n=1}^{N} \beta^{t_n}\right)$. With this, we can reframe the problem from cost minimization to reward maximization, where the judge receives one unit of reward each time he closes a case. With this, the problem boils down to production scheduling with preemption \citep[p. 275]{Pinedo2012}. Accordingly, in each period the judge chooses to work on the case with the largest Gittins index; the Gittins index of the $ n^{th} $ case is $ G_n(x)=\max_{\tau\ge 1}\frac{\sum_{t=1}^{\tau}\beta^t \Pr(x_n=x+t)}{\sum_{t=1}^{\tau}\beta^t \Pr(x_n\ge x+t)} $, where state variable $ x $ denotes the number of completed hearings. If $c(x)$ increases in $ x $, then $ \frac{\sum_{t=1}^{\tau}\beta^t \Pr(x_n=x+t)}{\sum_{t=1}^{\tau}\beta^t \Pr(x_n\ge x+t)} $ increases in $ \tau $, and the optimal stopping time is $ \tau=\infty $, which means the judge never preempts a case, working on it to completion. If $c(x)$ decreases in $ x $, then $ \frac{\sum_{t=1}^{\tau}\beta^t \Pr(x_n=x+t)}{\sum_{t=1}^{\tau}\beta^t \Pr(x_n\ge x+t)} $ decreases in $ \tau $, and the optimal stopping time is $ \tau=1 $; in this case, $ G_n(x) = c(x+1)$ also decreases in $ x $, which means the judge works on the case with the least number of completed hearings.
 	\end{proof}
+	
+	Proposition \ref{p:optimal} orders the work by shortest expected processing time. When $ c(x) $ is increasing---e.g., when half the hearing counts are geometric with rate $ p_{fast}=.9 $ and the other half were geometric with rate $ p_{slow}=.1 $---then the expected processing time increases with the number of completed cases, and the judge prioritizes the cases with the fewest number of completed hearings. However, when $ c(x) $ is decreasing---e.g., when the hearing counts have a discrete uniform distribution---then the expected processing time decreases with the number of completed cases, and the judge prioritizes the case with the most number of completed cases.
+	
+	Proposition \ref{p:optimal} proves that the judges cycle-through policy \emph{can} be optimal. Nevertheless, Exhibit *** demonstrates that it is not. The plots depict and increasing completion rate, which suggests the judges would be better off seeing a case through to completion. 	
 	
 	\clearpage
 	\singlespacing
